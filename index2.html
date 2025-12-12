@@ -19,7 +19,7 @@
             // Sprite-Einstellungen
             const FRAME_WIDTH = 600;   // Breite eines Frames
             const FRAME_HEIGHT = 300;  // Höhe eines Frames
-            const FRAME_COUNT = 5;     // Anzahl der Frames
+            const FRAME_COUNT = 6;     // Anzahl der Frames
 
             let frame = 0;             // Welches Frame gerade?
             let x = 10;                // Startposition
@@ -31,23 +31,24 @@
             const spriteRun = new Image();
             spriteRun.src = "contra clone character sprite sheet.png"; // Laufanimation
 
+            let lastUpdate = 0;
+            const FRAME_DURATION = 150; // ms pro Frame
+
             let movingLeft = false;
             let movingRight = false;
 
-            function update() {
+            function update(timestamp) {
+                if (!lastUpdate) lastUpdate = timestamp;
+
+                const elapsed = timestamp - lastUpdate;
+                if (elapsed > FRAME_DURATION) {
+                    frame = (frame + 1) % FRAME_COUNT;
+                    lastUpdate = timestamp;
+                }
+
                 // Bewegung
                 if (movingRight) x += speed;
                 if (movingLeft) x -= speed;
-
-                // Framewechsel nur während Bewegung
-                if (movingLeft || movingRight) {
-                    frameTimer++;
-                    if (frameTimer % 5 === 0) {
-                        frame = (frame + 1) % FRAME_COUNT;
-                    }
-                } else {
-                    frame = 0; // Standbild
-                }
             }
 
             function draw() {
@@ -74,11 +75,12 @@
                 }
             }
 
-            function loop() {
-                update();
+            function loop(timestamp) {
+                update(timestamp);
                 draw();
                 requestAnimationFrame(loop);
             }
+
 
             loop();
 
