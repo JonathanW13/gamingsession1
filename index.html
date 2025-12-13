@@ -19,7 +19,7 @@
             // Sprite-Einstellungen
             const FRAME_WIDTH = 600;   // Breite eines Frames
             const FRAME_HEIGHT = 300;  // Höhe eines Frames
-            const FRAME_COUNT = 5;     // Anzahl der Frames
+            const FRAME_COUNT = 1;     // Anzahl der Frames
 
             let frame = 0;             // Welches Frame gerade?
             let x = 10;                // Startposition
@@ -33,15 +33,19 @@
 
             let movingLeft = false;
             let movingRight = false;
+            let movingDown=false;
+            let movingUp=false;
 
             function update() {
                 // Bewegung
                 if (movingRight) x += speed;
                 if (movingLeft) x -= speed;
+                if (movingDown) y += speed;
+                if (movingUp) y -= speed;
 
                 // Framewechsel nur während Bewegung
-                if (movingLeft || movingRight) {
-                    frameTimer++;
+                if (movingLeft || movingRight || movingDown || movingUp ) {
+                    frameTimer++; 
                     if (frameTimer % 5 === 0) {
                         frame = (frame + 1) % FRAME_COUNT;
                     }
@@ -52,8 +56,8 @@
 
             function draw() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                if (movingLeft || movingRight) {
+// console.log("paint x,y,frame", x,y,frame)
+                if (movingLeft || movingRight || movingDown || movingUp ) {
                     // Laufanimation
                     ctx.drawImage(
                         spriteRun,
@@ -86,11 +90,15 @@
             document.addEventListener("keydown", (e) => {
                 if (e.key === "ArrowRight") movingRight = true;
                 if (e.key === "ArrowLeft") movingLeft = true;
+                if (e.key === "ArrowDown") movingDown = true;
+                if (e.key === "ArrowUp") movingUp = true;
             });
 
             document.addEventListener("keyup", (e) => {
                 if (e.key === "ArrowRight") movingRight = false;
                 if (e.key === "ArrowLeft") movingLeft = false;
+                if (e.key === "ArrowDown") movingDown = false;
+                if (e.key === "ArrowUp") movingUp = false;
             });
         });  
     </script>
@@ -103,7 +111,7 @@
 
 
 <body>
-    <canvas id="game" width="1600" height="1000"></canvas>
+    <canvas id="game" width="1000" height="600"></canvas>
 </body>
 
 </html>     
