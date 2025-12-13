@@ -36,9 +36,12 @@
             let movingDown=false;
             let movingUp=false;
 
-            function update() {
+            console.log("canv img w, h", canvas, canvas.width, sprite, sprite.width), sprite.getWidth()
+            const max_x = canvas.width - sprite.width; 
+
+            function update() { 
                 // Bewegung
-                if (movingRight) x += speed;
+                if (movingRight && x<800) x += speed;
                 if (movingLeft) x -= speed;
                 if (movingDown) y += speed;
                 if (movingUp) y -= speed;
@@ -111,7 +114,7 @@
 
 
 <body>
-    <canvas id="game" width="1000" height="600"></canvas>
+    <canvas id="game" width="1000" height="500"></canvas>
 </body>
 
 </html>     

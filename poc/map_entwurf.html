@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Top-Down Map</title>
+<style>
+  body {
+    background: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  canvas {
+    background: #c96f3a;
+    border: 4px solid #8a4b2a;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="game" width="480" height="530"></canvas>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+const TILE_SIZE = 40;
+
+// 0 = leer, 1 = Wand, 2 = Fass
+const map = [
+  [1,1,0,0,0,0,0,0,1,1],
+  [1,1,0,2,0,0,2,0,1,1],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,2,0,1,1,1,1,0,2,0],
+  [0,0,0,1,0,0,1,0,0,0],
+  [0,0,0,1,0,0,1,0,0,0],
+  [0,2,0,1,1,1,1,0,2,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [1,1,0,2,0,0,2,0,1,1],
+  [1,1,0,0,0,0,0,0,1,1],
+  [1,1,0,0,0,0,0,0,1,1],
+  [1,1,0,2,0,0,2,0,1,1],
+  [0,0,0,0,0,0,0,0,0,0],
+  [1,1,0,0,0,0,0,0,1,1],
+  [1,1,0,0,0,0,0,0,1,1],
+];
+
+function drawWall(x, y) {
+  ctx.fillStyle = "#4b74a6";
+  ctx.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+}
+
+function drawBarrel(x, y) {
+  ctx.fillStyle = "#8b5a2b";
+  ctx.beginPath();
+  ctx.arc(
+    x + TILE_SIZE / 2,
+    y + TILE_SIZE / 2,
+    TILE_SIZE / 2.5,
+    0,
+    Math.PI * 2
+  );
+  ctx.fill();
+}
+
+function drawMap() {
+  for (let row = 0; row < map.length; row++) {
+    for (let col = 0; col < map[row].length; col++) {
+      const x = col * TILE_SIZE;
+      const y = row * TILE_SIZE;
+
+      if (map[row][col] === 1) {
+        drawWall(x, y);
+      } else if (map[row][col] === 2) {
+        drawBarrel(x, y);
+      }
+    }
+  }
+}
+
+drawMap();
+</script>
+
+</body>
+</html>
